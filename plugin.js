@@ -27,6 +27,7 @@ module.exports = function({ types: t }) {
             console.log("Converting const declaration to function declaration.");
           }
           path.node.declarations.forEach((decl) => {
+            console.log("decl.init:", decl.init);
             if (t.isArrowFunctionExpression(decl.init)) {
               path.replaceWith(
                 t.functionDeclaration(
