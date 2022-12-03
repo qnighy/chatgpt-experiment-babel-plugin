@@ -7,6 +7,6 @@
   "devDependencies": {
     "@babel/cli": "^7.19.3",
     "@babel/core": "^7.20.5",
-    "babel-types": "^6.26.0"
+    "@babel/types": "^7.20.5"
   }
 }

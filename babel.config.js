@@ -1,4 +1,4 @@
-const { functionDeclaration } = require("babel-types");
+const { functionDeclaration } = require("@babel/types");
 
 const myBabelPlugin = {
   visitor: {
