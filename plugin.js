@@ -21,7 +21,11 @@ module.exports = function({ types: t }) {
         }
         // Otherwise, we can simply convert the const declaration to a function declaration
         else {
-          console.log(`Converting const declaration of function with name '${path.node.id.name}' to function declaration.`);
+          if (path.node.id && path.node.id.name === "this") {
+            console.log(`Converting const declaration of function ${path.node.id.name} to function declaration.`);
+          } else {
+            console.log("Converting const declaration to function declaration.");
+          }
           path.node.declarations.forEach((decl) => {
             if (t.isArrowFunctionExpression(decl.init)) {
               path.replaceWith(
