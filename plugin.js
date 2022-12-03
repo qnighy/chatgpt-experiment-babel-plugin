@@ -4,24 +4,24 @@ module.exports = function({ types: t }) {
   return {
     visitor: {
       VariableDeclaration(path) {
-        // If the original arrow function uses this, we bind the correct this value to the function
-        if (path.node.id && path.node.id.name === "this") {
-          path.node.declarations.forEach((decl) => {
-            if (t.isArrowFunctionExpression(decl.init)) {
-              decl.init.body = t.callExpression(
-                t.bindExpression(
-                  decl.init.body,
-                  t.thisExpression()
-                ),
-                decl.init.params
+        path.node.declarations.forEach((decl) => {
+          if (t.isArrowFunctionExpression(decl.init)) {
+            // If the original arrow function uses this, we bind the correct this value to the function
+            if (t.isThisExpression(decl.init.body)) {
+              path.replaceWith(
+                t.variableDeclaration("const", [
+                  t.variableDeclarator(
+                    decl.id,
+                    t.callExpression(
+                      t.bindExpression(decl.init.body, t.thisExpression()),
+                      decl.init.params
+                    )
+                  ),
+                ])
               );
             }
-          });
-        }
-        // Otherwise, we can simply convert the const declaration to a function declaration
-        else {
-          path.node.declarations.forEach((decl) => {
-            if (t.isArrowFunctionExpression(decl.init)) {
+            // Otherwise, we can simply convert the const declaration to a function declaration
+            else {
               path.replaceWith(
                 t.functionDeclaration(
                   decl.id,
@@ -30,8 +30,8 @@ module.exports = function({ types: t }) {
                 )
               );
             }
-          });
-        }
+          }
+        });
       },
     },
   };
