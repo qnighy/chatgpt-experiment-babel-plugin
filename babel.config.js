@@ -1,3 +1,5 @@
+const { functionDeclaration } = require("babel-types");
+
 const myBabelPlugin = {
   visitor: {
     // This visitor will be applied to all `VariableDeclaration` nodes with `const` or `let` declarations
@@ -7,7 +9,7 @@ const myBabelPlugin = {
         path.node.declarations.forEach((declarator) => {
           if (declarator.init && declarator.init.type === "ArrowFunctionExpression") {
             // If it is, we create a new `FunctionDeclaration` node with the same name and function body
-            const func = t.functionDeclaration(
+            const func = functionDeclaration(
               declarator.id,
               declarator.init.params,
               declarator.init.body,
