@@ -21,13 +21,10 @@ module.exports = function({ types: t }) {
         }
         // Otherwise, we can simply convert the const declaration to a function declaration
         else {
-          if (path.node.id && path.node.id.name === "this") {
-            console.log(`Converting const declaration of function ${path.node.id.name} to function declaration.`);
-          } else {
-            console.log("Converting const declaration to function declaration.");
-          }
+          // Use the name of the identifier if it exists, otherwise use a default string
+          const functionName = path.node.id && path.node.id.name ? path.node.id.name : "anonymous";
+          console.log(`Converting const declaration of function with name '${functionName}' to function declaration.`);
           path.node.declarations.forEach((decl) => {
-            console.log("decl.init:", decl.init);
             if (t.isArrowFunctionExpression(decl.init)) {
               path.replaceWith(
                 t.functionDeclaration(
