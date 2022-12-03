@@ -19,16 +19,17 @@ const myBabelPlugin = {
 
             // If the original arrow function uses `this`, we bind the correct `this` value to the function
             if (declarator.init.body.body[0].expression.callee.object.name === "this") {
-              func.bind(this);
+              // Use the `Object.assign` method to assign the result of calling `bind` to the `func` object
+              Object.assign(func, func.bind(declarator.init.body.body[0].expression.callee.object));
             }
 
-            // And replace the original `VariableDeclarator` node with the new `FunctionDeclaration` node
+            // Replace the original `VariableDeclarator` node with the new `FunctionDeclaration` node
             path.replaceWith(func);
           }
         });
       }
-    }
-  }
+    },
+  },
 };
 
 module.exports = {
