@@ -9,6 +9,10 @@ This is an experiment if [ChatGPT](https://openai.com/blog/chatgpt/) can write a
 - It can write a very basic plugin.
 - It could not debug a complex plugin involving recursive lookup for specific nodes. Even if it is given an opportunity to narrow down causes using debug statements, it cannot properly deduce correct conclusion from the debug output. As a result, the proposed fixes all miss the point and the proposed code went back and forth without being improved over time.
 
+## Chat log
+
+See the [commits page](https://github.com/qnighy/chatgpt-experiment-babel-plugin/commits/master) for chat log. Each commit message contains the prompts and the answers.
+
 ## Problem 1
 
 Write a babel plugin that transforms
@@ -29,7 +33,7 @@ function f(x) {
 
 ## Answer 1
 
-The commit b8a75eef144a116abf803ab5f59be159589c7995 contains the complete solution:
+The commit [b8a75ee](https://github.com/qnighy/chatgpt-experiment-babel-plugin/commit/b8a75eef144a116abf803ab5f59be159589c7995) contains the complete solution:
 
 ```javascript
 const { functionDeclaration } = require("@babel/types");
